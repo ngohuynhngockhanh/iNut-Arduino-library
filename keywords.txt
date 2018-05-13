@@ -1,0 +1,25 @@
+###########################################
+# Syntax Coloring Map For iNut
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+iNut	KEYWORD1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+setup	KEYWORD2
+loop	KEYWORD2
+next	KEYWORD2
+setValue	KEYWORD2
+next	KEYWORD2
+addCommand	KEYWORD2
+setDefaultHandler	KEYWORD2
+clearBuffer	KEYWORD2
+iNutCommandCallback KEYWORD2
+###########################################
+# Constants (LITERAL1)
+###########################################
