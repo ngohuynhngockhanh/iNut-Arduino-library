@@ -65,6 +65,26 @@ char* iNut::next()
 void iNut::setValue(int index, float value)
 {
     _sensors[index] = value;
+    _type = FLOAT;
+}
+
+void iNut::turnOn(int index, int idx) {
+	if (_type == FLOAT) {
+		_type = BIT;
+		setValue(index, 0.0f);
+	}
+	int val = _sensors[index];
+	val |= (1 << idx);
+	setValue(index, float(val));
+}
+void iNut::turnOff(int index, int idx) {
+	if (_type == FLOAT) {
+		_type = BIT;
+		setValue(index, 0.0f);
+	}
+	int val = _sensors[index];
+	val &= ~(1 << idx);
+	setValue(index, float(val));
 }
 
 //add iNut.loop() is ok
