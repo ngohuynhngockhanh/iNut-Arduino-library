@@ -19,12 +19,15 @@ void receiveEvent(int howMany);
 
 #define INUTCOMMAND_DEBUG
 #undef INUTCOMMAND_DEBUG //uncomment dòng này dể debug chương trình inutcommand
-
+#define BIT true
+#define FLOAT false
 class iNut {
 public:
 	void setup(int sensor_count = 8, int i2c_port = 10);
 	void loop();
 	void setValue(int index, float value);
+	void turnOn(int index, int idx);
+	void turnOff(int index, int idx);
 	char *next();
 	void addCommand(const char *command, void(*function)());  // Add a command to the processing dictionary.
     void setDefaultHandler(void (*function)(const char *));   // A handler to call when no valid command received.
@@ -33,6 +36,7 @@ public:
 	
 	
 private:
+	bool _type;
 	float *_sensors;
 	struct iNutCommandCallback {
       char command[INUT_COMMAND_MAX_LENGTH + 1];
