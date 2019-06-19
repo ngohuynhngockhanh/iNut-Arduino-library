@@ -84,4 +84,4 @@ sensor.addCommand("TIME", timeFunction);
 sensor.setDefaultHandler(defaultHandler);
 ```
 
-Xem thêm ở ví dụ [Điều khiển 8 relay và gửi 7 luồng cảm biến](/ngohuynhngockhanh/iNut-Arduino-library/blob/master/examples/dieu-khien-8-relay-hien-thi-7-cam-bien/dieu-khien-8-relay-hien-thi-7-cam-bien.ino). 
+Xem thêm ở ví dụ [Điều khiển 8 relay và gửi 7 luồng cảm biến](/examples/dieu-khien-8-relay-hien-thi-7-cam-bien/dieu-khien-8-relay-hien-thi-7-cam-bien.ino). 
