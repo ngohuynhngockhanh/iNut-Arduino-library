@@ -5,7 +5,7 @@ iNut sensor;
 #define WRITE_COMMAND 200
 int relay[] = {2,3,4,5,6,7,8,9};
 void setup() {
-  Serial.begin(9600); //bật baudrate ở mức 9600
+  Serial.begin(115200); //bật baudrate ở mức 115200
 
   Serial.println(F("San sang nhan lenh"));
 
@@ -90,15 +90,14 @@ void loop() {
   static unsigned long timer = 0;
   if (millis() - timer > 1000UL) {
     timer = millis();
-    Serial.println(sensor.getValue(0), BIN);
+    Serial.println((long)sensor.getValue(0), BIN);
   }
 
   
   //giá trị cho các lbịuồn từ 1-7 là giá trị random
   ///Tại sao lại sử dụng random? Vì đây là thử nghiệm, bạn có thể thay thế giá trị random bằng một giá trị cảm biến hoặc trị số mà bạn mong muốn đồng bộ lên Internet!
   for (byte i = 1; i <= 7; i++) {
-    unsigned long value = random() % 10000; //trả về giá trị random - "hên xui" - tự do
-    sensor.setValue(i, value); //gán giá trị trên vào luồn
+    sensor.setValue(i, timer + i); //gán giá trị trên vào luồn
   }
   sensor.loop();
 }
