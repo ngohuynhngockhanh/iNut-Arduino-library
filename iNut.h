@@ -35,10 +35,10 @@ public:
 	iNut();
 	void turnOn(int index, int idx);
 	void turnOff(int index, int idx);
-	
+	~iNut();
 	
 private:
-	bool _type = FLOAT;
+	bool *_types;
 
 	float *_sensors;
 	struct iNutCommandCallback {
