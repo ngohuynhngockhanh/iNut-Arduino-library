@@ -61,7 +61,31 @@ char* iNut::next()
     return strtok_r(NULL, delim, &last);
 }
 
-//set sensor value
+
+void iNut::setValue(int index, char *str) {
+    char val[4];
+    int k = 0;
+    int l = strlen(str);
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (k < l) {
+                val[j] = str[k];
+                k++;
+            } else {
+                val[j] = 0;
+            }
+        }
+        float *value;
+        value = (float *)(void *)val;
+        _sensors[index + i] = *value;
+    }
+}
+
+//get
+float iNut::getValue(int index) {
+    return _sensors[index];
+}
+//set
 void iNut::setValue(int index, float value)
 {
     _sensors[index] = value;
@@ -69,22 +93,22 @@ void iNut::setValue(int index, float value)
 }
 
 void iNut::turnOn(int index, int idx) {
-	if (_type == FLOAT) {
-		_type = BIT;
-		setValue(index, 0.0f);
-	}
-	int val = _sensors[index];
-	val |= (1 << idx);
-	setValue(index, float(val));
+    if (_type == FLOAT) {
+        _sensors[index] = 0.0f;
+        _type = BIT;
+    }
+    int val = _sensors[index];
+    val |= (1 << idx);
+    _sensors[index] = val;
 }
 void iNut::turnOff(int index, int idx) {
-	if (_type == FLOAT) {
-		_type = BIT;
-		setValue(index, 0.0f);
-	}
-	int val = _sensors[index];
-	val &= ~(1 << idx);
-	setValue(index, float(val));
+    if (_type == FLOAT) {
+        _sensors[index] = 0.0f;
+        _type = BIT;
+    }
+    int val = _sensors[index];
+    val &= ~(1 << idx);
+    _sensors[index] = val;
 }
 
 //add iNut.loop() is ok
