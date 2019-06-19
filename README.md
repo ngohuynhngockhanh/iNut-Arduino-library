@@ -53,7 +53,7 @@ Ví dụ:
 sensor.setup(8); //Mặc định chúng ta có 8 luồn cảm biến nên sẽ để là 8.
 ```
 
-## Các phương thức gửi dữ liệu về APP iNut hoặc các ứng dụng trên iNut Node-RED IDE##
+## Các phương thức gửi dữ liệu về APP iNut hoặc các ứng dụng trên iNut Node-RED IDE 
 
 ```
 void sensor.setValue(int index, int value); 
