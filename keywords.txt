@@ -20,6 +20,8 @@ addCommand	KEYWORD2
 setDefaultHandler	KEYWORD2
 clearBuffer	KEYWORD2
 iNutCommandCallback	KEYWORD2
+turnOn	KEYWORD2
+turnOff	KEYWORD2
 ###########################################
 # Constants (LITERAL1)
 ###########################################
