@@ -7,7 +7,7 @@ int relay[] = {2,3,4,5,6,7,8,9};
 void setup() {
   Serial.begin(9600); //bật baudrate ở mức 9600
 
-  Serial.println("San sang nhan lenh");
+  Serial.println(F("San sang nhan lenh"));
 
   for (int i = 0; i < RELAY_COUNT; i++) {
     pinMode(relay[i], OUTPUT);
@@ -32,7 +32,7 @@ void timeFunction() {
   int hour = atoi(sensor.next());
   int minute = atoi(sensor.next());
   int second = atoi(sensor.next());
-  Serial.print("Bay gio la: ");
+  Serial.print(F("Bay gio la: "));
   Serial.print(year);
   Serial.print('/');
   Serial.print(month);
@@ -48,18 +48,18 @@ void timeFunction() {
 }
 
 void onlineFunction() {
-  Serial.println("Thiet bi dang ket noi Internet rat ok");
+  Serial.println(F("Thiet bi dang ket noi Internet rat ok"));
 }
 
 void offlineFunction() {
-  Serial.println("Thiet bi dang mat ket noi");
+  Serial.println(F("Thiet bi dang mat ket noi"));
 }
 
 void onFunction() {
   
   int bit_index = atoi(sensor.next()) - WRITE_COMMAND;
   
-  Serial.print("Bat relay thu ");
+  Serial.print(F("Bat relay thu "));
   Serial.println(bit_index);
   
   digitalWrite(relay[bit_index], LOW);
@@ -67,7 +67,7 @@ void onFunction() {
 
 void offFunction() {
   int bit_index = atoi(sensor.next())  - WRITE_COMMAND;
-  Serial.print("Tat relay thu ");
+  Serial.print(F("Tat relay thu "));
   Serial.println(bit_index);
   digitalWrite(relay[bit_index], HIGH);
 }
@@ -87,6 +87,7 @@ void loop() {
       sensor.turnOff(0, i); 
     }
   }
+  //Serial.println(sensor.getValue(0));
 
   
   //giá trị cho các lbịuồn từ 1-7 là giá trị random
@@ -108,9 +109,9 @@ void defaultHandler(const char *command) {
   int idx = 0;
   char *arg;
   while ((arg = sensor.next()) != NULL) { //còn tham số nào thì in ra
-    Serial.print("-----> Gia tri thu #");
+    Serial.print(F("-----> Gia tri thu #"));
     Serial.print(idx);
-    Serial.print(": ");
+    Serial.print(F(": "));
     Serial.println(arg);
    
     idx++;
