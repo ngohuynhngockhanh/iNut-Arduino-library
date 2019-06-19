@@ -97,18 +97,18 @@ void iNut::turnOn(int index, int idx) {
         _sensors[index] = 0.0f;
         _type = BIT;
     }
-    int val = _sensors[index];
-    val |= (1 << idx);
-    _sensors[index] = val;
+    long val = _sensors[index];
+    val |= (1L << idx);
+    _sensors[index] = float(val);
 }
 void iNut::turnOff(int index, int idx) {
     if (_type == FLOAT) {
         _sensors[index] = 0.0f;
         _type = BIT;
     }
-    int val = _sensors[index];
-    val &= ~(1 << idx);
-    _sensors[index] = val;
+    long val = _sensors[index];
+    val &= ~(1L << idx);
+    _sensors[index] = float(val);
 }
 
 //add iNut.loop() is ok
