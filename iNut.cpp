@@ -40,6 +40,10 @@ iNut::iNut()
     clearBuffer();
 }
 
+iNut::~iNut() {
+    delete []_types;
+    delete []_sensors;
+}
 void iNut::setup(int sensor_count, int i2c_port)
 {
     Wire.begin(i2c_port);
@@ -48,6 +52,7 @@ void iNut::setup(int sensor_count, int i2c_port)
     Wire.onRequest(i2cRequestEvent);
 
     _sensors = new float[sensor_count];
+    _types = new bool[sensor_count]; 
 	size_of_iNut = sensor_count * sizeof(float);
     iNut_sensors = _sensors;
 }
@@ -89,22 +94,22 @@ float iNut::getValue(int index) {
 void iNut::setValue(int index, float value)
 {
     _sensors[index] = value;
-    _type = FLOAT;
+    _types[index] = FLOAT;
 }
 
 void iNut::turnOn(int index, int idx) {
-    if (_type == FLOAT) {
-        _sensors[index] = 0.0f;
-        _type = BIT;
+    if (_types[index] == FLOAT) {
+        _sensors[index] = 0;
+        _types[index] = BIT;
     }
     long val = _sensors[index];
     val |= (1L << idx);
     _sensors[index] = float(val);
 }
 void iNut::turnOff(int index, int idx) {
-    if (_type == FLOAT) {
-        _sensors[index] = 0.0f;
-        _type = BIT;
+    if (_types[index] == FLOAT) {
+        _sensors[index] = 0;
+        _types[index] = BIT;
     }
     long val = _sensors[index];
     val &= ~(1L << idx);
