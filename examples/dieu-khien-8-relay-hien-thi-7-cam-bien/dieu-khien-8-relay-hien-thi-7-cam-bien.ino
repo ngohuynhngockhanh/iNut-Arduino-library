@@ -87,7 +87,11 @@ void loop() {
       sensor.turnOff(0, i); 
     }
   }
-  //Serial.println(sensor.getValue(0));
+  static unsigned long timer = 0;
+  if (millis() - timer > 1000UL) {
+    timer = millis();
+    Serial.println(sensor.getValue(0), BIN);
+  }
 
   
   //giá trị cho các lbịuồn từ 1-7 là giá trị random
