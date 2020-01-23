@@ -1,7 +1,7 @@
 #include "iNut.h"
 
 volatile char iNut_buffer[INUTCOMMAND_BUFFER + 1];
-volatile boolean iNut_receiveFlag = false;
+volatile boolean iNut_receiveFlag = false;  
 float* iNut_sensors;
 int size_of_iNut;
 
@@ -27,7 +27,27 @@ void receiveEvent(int howMany)
 	Serial.println(str);
 #endif
 }
+void iNut::alarm(int code, int n_args,...) {
+    va_list ap;
+    va_start(ap, n_args);
+    for (int i = 0; i < n_args; i++) {
+        if (n_args >= 6) {
+            break;
+        }
+        double arg = va_arg(ap, double);
+        //Serial.println(arg);
 
+        _alarmSensors[i+2]=arg;
+    }
+    for (int i = n_args; i < _sensor_count - 2; i++) {
+        _alarmSensors[i + 2] = 0;
+    }
+    
+    _alarmSensors[1] = code;
+    _alarmSensors[0] = -2.0625f;
+    iNut_sensors = _alarmSensors;
+    va_end(ap);
+}
 iNut::iNut()
     : commandList(NULL)
     , commandCount(0)
@@ -44,6 +64,7 @@ iNut::~iNut() {
     delete []_types;
     delete []_sensors;
 }
+
 void iNut::setup(int sensor_count, int i2c_port)
 {
     Wire.begin(i2c_port);
@@ -55,6 +76,9 @@ void iNut::setup(int sensor_count, int i2c_port)
     _types = new bool[sensor_count]; 
 	size_of_iNut = sensor_count * sizeof(float);
     iNut_sensors = _sensors;
+    _alarmSensors = new float[sensor_count];
+    
+    _sensor_count = sensor_count;
 }
 
 /**
@@ -99,20 +123,21 @@ void iNut::setValue(int index, float value)
 
 void iNut::turnOn(int index, int idx) {
     if (_types[index] == FLOAT) {
-        _sensors[index] = 0;
+        _sensors[index] = 0.0f;
         _types[index] = BIT;
     }
-    long val = _sensors[index];
-    val |= (1L << idx);
+    unsigned int val = _sensors[index];
+    Serial.print(val);
+    val |= (1UL << idx);
     _sensors[index] = float(val);
 }
 void iNut::turnOff(int index, int idx) {
     if (_types[index] == FLOAT) {
-        _sensors[index] = 0;
+        _sensors[index] = 0.0f;
         _types[index] = BIT;
     }
-    long val = _sensors[index];
-    val &= ~(1L << idx);
+    unsigned int val = _sensors[index];
+    val &= ~(1UL << idx);
     _sensors[index] = float(val);
 }
 
@@ -137,7 +162,11 @@ void iNut::loop()
 #endif
 
                 char* command = strtok_r(buffer, delim, &last); // Search for command at start of buffer
+
                 if (command != NULL) {
+                    if (strncmp(command, "CLRALARM", INUT_COMMAND_MAX_LENGTH) == 0) {
+                        iNut_sensors = _sensors;
+                    }
                     boolean matched = false;
                     for (int i = 0; i < commandCount; i++) {
 #ifdef INUTCOMMAND_DEBUG
@@ -149,6 +178,8 @@ void iNut::loop()
 #endif
 
                         // Compare the found command against the list of known commands for a match
+                        //Serial.println(command);
+                        
                         if (strncmp(command, commandList[i].command, INUT_COMMAND_MAX_LENGTH) == 0) {
 #ifdef INUTCOMMAND_DEBUG
                             Serial.print("Matched Command: ");
