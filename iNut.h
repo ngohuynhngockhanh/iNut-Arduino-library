@@ -37,7 +37,6 @@ public:
 	void setup(int sensor_count = 8, int i2c_port = 10);
 	void loop();
 	void setValue(int index, float value);
-	void setValue(int index, char *str);
 	float getValue(int index);
 	char *next();
 	void addCommand(const char *command, void(*function)());  // Add a command to the processing dictionary.
