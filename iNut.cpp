@@ -91,25 +91,6 @@ char* iNut::next()
 }
 
 
-void iNut::setValue(int index, char *str) {
-    char val[4];
-    int k = 0;
-    int l = strlen(str);
-    for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 4; j++) {
-            if (k < l) {
-                val[j] = str[k];
-                k++;
-            } else {
-                val[j] = 0;
-            }
-        }
-        float *value;
-        value = (float *)(void *)val;
-        _sensors[index + i] = *value;
-    }
-}
-
 //get
 float iNut::getValue(int index) {
     return _sensors[index];
